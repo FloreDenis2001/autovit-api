@@ -21,6 +21,14 @@ public class Masina implements Comparable<Masina> {
     private String model;
     private int an;
     private String culoare;
+
+    public Masina(String marca, String model, int an, String culoare) {
+        this.marca = marca;
+        this.model = model;
+        this.an = an;
+        this.culoare = culoare;
+    }
+
     @Override
     public String toString(){
         String text="Id : "+this.id+"\n";
