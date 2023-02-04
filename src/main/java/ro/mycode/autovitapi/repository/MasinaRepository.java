@@ -26,9 +26,19 @@ public interface MasinaRepository extends JpaRepository<Masina,Long> {
     @Modifying
     @Query("update Masina m set m.culoare=?1 where m.model = ?2")
      void updateColor(String color,String model);
+    @Transactional
+    @Modifying
+    @Query("update Masina m set m.marca=?1 where m.model = ?2")
+     void updateMarca(String marca,String model);
+    @Transactional
+    @Modifying
+    @Query("update Masina m set m.an=?1 where m.model = ?2")
+     void updateAn(int an,String model);
+
 
     @Transactional
     void removeMasinaByModel(String model);
+
 
 
 
