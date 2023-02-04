@@ -2,6 +2,7 @@ package ro.mycode.autovitapi.service;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import ro.mycode.autovitapi.dto.MasinaDTO;
 import ro.mycode.autovitapi.exceptii.EmptyDatabaseMasiniException;
 import ro.mycode.autovitapi.exceptii.MasinaAlreadyExistsException;
 import ro.mycode.autovitapi.exceptii.MasinaDoesntExistException;
@@ -9,6 +10,7 @@ import ro.mycode.autovitapi.model.Masina;
 import ro.mycode.autovitapi.repository.MasinaRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +62,7 @@ public class MasinaService {
         Optional<Masina> exits = masinaRepository.findByModel(model);
         if (!exits.isEmpty()) {
             masinaRepository.removeMasinaByModel(model);
-        }else {
+        } else {
             throw new MasinaDoesntExistException("Masina nu exista in database ! ");
         }
 
@@ -68,15 +70,46 @@ public class MasinaService {
 
     @Transactional
     @Modifying
-    public void update(String color,String model)throws  MasinaDoesntExistException{
-        System.out.println(masinaRepository.findByModel(model));
-        Optional<Masina> exits = masinaRepository.findByModel(model);
+    public void update(MasinaDTO masinaDTO) throws MasinaDoesntExistException {
+        Optional<Masina> exits = masinaRepository.findByModel(masinaDTO.getModel());
+        System.out.println(masinaRepository.findByModel(masinaDTO.getModel()));
         if (!exits.isEmpty()) {
-            masinaRepository.updateColor(color,model);
-        }else {
+            if (masinaDTO.getAn() != 0) {
+                exits.get().setAn(masinaDTO.getAn());
+            }
+            if (masinaDTO.getCuloare() != "") {
+                exits.get().setCuloare(masinaDTO.getCuloare());
+            }
+            if (masinaDTO.getMarca()!="") {
+                exits.get().setMarca(masinaDTO.getMarca());
+            }
+
+            masinaRepository.saveAndFlush(exits.get());
+        } else {
             throw new MasinaDoesntExistException("Masina nu exista in database ! ");
         }
+
+
     }
 
-
+    public Optional<List<Masina>> filter(MasinaDTO masinaDTO) throws MasinaDoesntExistException {
+        List<Masina> exits = masinaRepository.findAll();
+        List<Masina> filter=new ArrayList<>();
+        if (!exits.isEmpty()) {
+            for (int i = 0; i < exits.size(); i++) {
+                if (    exits.get(i).getModel().compareTo(masinaDTO.getModel())==0
+                        && exits.get(i).getAn()==masinaDTO.getAn()
+                        && exits.get(i).getCuloare().compareTo(masinaDTO.getCuloare())==0
+                        && exits.get(i).getMarca().compareTo(masinaDTO.getMarca())==0) {
+                    filter.add(exits.get(i));
+                }
+            }
+        } else {
+            throw new MasinaDoesntExistException("Masina nu exista in database ! ");
+        }
+    for (int i=0;i<filter.size();i++){
+        System.out.println(filter.get(i));
+    }
+     return Optional.of(filter);
+    }
 }
