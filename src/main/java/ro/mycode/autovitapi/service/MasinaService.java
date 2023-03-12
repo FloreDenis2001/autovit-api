@@ -32,14 +32,15 @@ public class MasinaService {
         }
     }
 
+    @Transactional
 
-    public List<Masina> getAllCarsByColor(String color) throws EmptyDatabaseMasiniException {
+    public Optional<List<Masina>> getAllCarsByColor(String color) throws EmptyDatabaseMasiniException {
         Optional<List<Masina>> masinaList = masinaRepository.getAllCarsByColor(color);
 
-        if (Optional.of(masinaList).isEmpty()) {
+        if (masinaList.isEmpty()) {
             throw new EmptyDatabaseMasiniException("Nu sunt masini cu culoarea respectiva");
         } else {
-            return masinaList.get();
+            return masinaList;
         }
     }
 
@@ -58,7 +59,7 @@ public class MasinaService {
     }
 
     @Transactional
-    public void remove(String model) throws MasinaDoesntExistException {
+    public void removeByModel(String model) throws MasinaDoesntExistException {
         Optional<Masina> exits = masinaRepository.findByModel(model);
         if (!exits.isEmpty()) {
             masinaRepository.removeMasinaByModel(model);
@@ -72,7 +73,6 @@ public class MasinaService {
     @Modifying
     public void update(MasinaDTO masinaDTO) throws MasinaDoesntExistException {
         Optional<Masina> exits = masinaRepository.findByModel(masinaDTO.getModel());
-        System.out.println(masinaRepository.findByModel(masinaDTO.getModel()));
         if (!exits.isEmpty()) {
             if (masinaDTO.getAn() != 0) {
                 exits.get().setAn(masinaDTO.getAn());
@@ -80,7 +80,7 @@ public class MasinaService {
             if (masinaDTO.getCuloare() != "") {
                 exits.get().setCuloare(masinaDTO.getCuloare());
             }
-            if (masinaDTO.getMarca()!="") {
+            if (masinaDTO.getMarca() != "") {
                 exits.get().setMarca(masinaDTO.getMarca());
             }
 
@@ -94,22 +94,23 @@ public class MasinaService {
 
     public Optional<List<Masina>> filter(MasinaDTO masinaDTO) throws MasinaDoesntExistException {
         List<Masina> exits = masinaRepository.findAll();
-        List<Masina> filter=new ArrayList<>();
+        List<Masina> filter = new ArrayList<>();
         if (!exits.isEmpty()) {
             for (int i = 0; i < exits.size(); i++) {
-                if (    exits.get(i).getModel().compareTo(masinaDTO.getModel())==0
-                        && exits.get(i).getAn()==masinaDTO.getAn()
-                        && exits.get(i).getCuloare().compareTo(masinaDTO.getCuloare())==0
-                        && exits.get(i).getMarca().compareTo(masinaDTO.getMarca())==0) {
+                if (exits.get(i).getModel().compareTo(masinaDTO.getModel()) == 0
+                        && exits.get(i).getAn() == masinaDTO.getAn()
+                        && exits.get(i).getCuloare().compareTo(masinaDTO.getCuloare()) == 0
+                        && exits.get(i).getMarca().compareTo(masinaDTO.getMarca()) == 0) {
                     filter.add(exits.get(i));
                 }
             }
         } else {
-            throw new MasinaDoesntExistException("Masina nu exista in database ! ");
+            throw new EmptyDatabaseMasiniException("Nu exista masini in baza de date ! ");
         }
-    for (int i=0;i<filter.size();i++){
-        System.out.println(filter.get(i));
-    }
-     return Optional.of(filter);
+
+        if (filter.isEmpty()) {
+            throw new MasinaDoesntExistException("Masina nu exista ! ");
+        }
+        return Optional.of(filter);
     }
 }
