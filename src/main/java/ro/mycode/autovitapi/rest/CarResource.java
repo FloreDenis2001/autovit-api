@@ -36,7 +36,7 @@ public class CarResource {
 
     @GetMapping("api/v1/masini/culoare/{color}")
     public ResponseEntity<List<Masina>> getAllMasiniByColor(@PathVariable String color) {
-            List<Masina> masinas = masinaService.getAllCarsByColor(color);
+            List<Masina> masinas = masinaService.getAllCarsByColor(color).get();
             return new ResponseEntity<>(masinas, HttpStatus.OK);
     }
 
@@ -48,7 +48,7 @@ public class CarResource {
 
     @DeleteMapping("api/v1/masini/{model}")
     public ResponseEntity<Masina> deleteCar(@PathVariable String model) {
-        this.masinaService.remove(model);
+        this.masinaService.removeByModel(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("api/v1/masini/update")

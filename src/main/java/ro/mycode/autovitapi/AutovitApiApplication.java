@@ -34,8 +34,8 @@ public class AutovitApiApplication {
 //			masinaService.add(new Masina("Mercedes","C",2005,"white"));
 
 
-			MasinaDTO masinaDTO=new MasinaDTO("Porsche","E",2012,"Puce");
-			masinaService.filter(masinaDTO);
+//			MasinaDTO masinaDTO=new MasinaDTO("Porsche","E",2012,"Puce");
+//			masinaService.filter(masinaDTO);
 		};
 
 	}
