@@ -104,13 +104,15 @@ public class MasinaService {
                     filter.add(exits.get(i));
                 }
             }
+
+            if (filter.isEmpty()) {
+                throw new MasinaDoesntExistException("Masina nu exista ! ");
+            }
         } else {
             throw new EmptyDatabaseMasiniException("Nu exista masini in baza de date ! ");
         }
 
-        if (filter.isEmpty()) {
-            throw new MasinaDoesntExistException("Masina nu exista ! ");
-        }
+
         return Optional.of(filter);
     }
 }
