@@ -26,12 +26,8 @@ public class CarResource {
 
     @GetMapping("api/v1/masini/all")
     public ResponseEntity<List<Masina>> getAllMasini() {
-
-
         List<Masina> masinas = masinaService.getAllCars();
         return new ResponseEntity<>(masinas, HttpStatus.OK);
-
-
     }
 
     @GetMapping("api/v1/masini/culoare/{color}")

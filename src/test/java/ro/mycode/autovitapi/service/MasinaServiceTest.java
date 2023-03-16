@@ -159,30 +159,38 @@ class MasinaServiceTest {
 
     @Test
     public void filterTest() {
-
         Faker faker = new Faker();
         List<Masina> masini = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             masini.add(new Masina(faker.lorem().sentence(), faker.lorem().sentence(), faker.number().numberBetween(2015, 2022), "verde"));
         }
         masini.add(new Masina("MasinaSpeciala", "ModelSpecial", 2005, "rosu"));
-
         MasinaDTO masinaDTO = new MasinaDTO("MasinaSpeciala", "ModelSpecial", 2005, "rosu");
-
         doReturn(masini).when(masinaRepository).findAll();
         assertEquals(1, masinaService.filter(masinaDTO).get().size());
-
     }
+
 
     @Test
     public void filterTestException() {
         MasinaDTO masinaDTO = new MasinaDTO("MasinaSpeciala", "ModelSpecial", 2005, "rosu");
-
         doReturn(new ArrayList<>()).when(masinaRepository).findAll();
         assertThrows(EmptyDatabaseMasiniException.class, () -> {
             masinaService.filter(masinaDTO);
         });
+    }
 
+    @Test
+    public void filterTestException2() {
+        Faker faker = new Faker();
+        List<Masina> masini = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            masini.add(new Masina(faker.lorem().sentence(), faker.lorem().sentence(), faker.number().numberBetween(2015, 2022), "verde"));
+        }
+        masini.add(new Masina("MasinaSpeciala", "ModelSpecial", 2005, "rosu"));
+        MasinaDTO masinaDTO = new MasinaDTO("Masina", "Model", 2005, "rosu");
+        doReturn(masini).when(masinaRepository).findAll();
+        assertThrows(MasinaDoesntExistException.class,()->masinaService.filter(masinaDTO));
     }
 
 }
