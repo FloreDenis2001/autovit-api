@@ -52,7 +52,6 @@ class MasinaRepositoryTest {
 
             assertEquals("rosu",masinaRepository.findByModel("ModelSpecial").get().getCuloare());
         }
-
         @Test
     public void updateCuloareMasinaTest(){
             Faker faker= new Faker();

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
@@ -17,9 +19,14 @@ public class Masina implements Comparable<Masina> {
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Id
     private Long id ;
+
+    @Size(min=3,message ="min marca length should be 3")
     private String marca;
+    @Size(min=1,message ="min marca length should be 1")
     private String model;
+    @Min(value=1886,message = "min year that can be")
     private int an;
+    @Size(min=3,message ="min marca length should be 3")
     private String culoare;
 
     public Masina(String marca, String model, int an, String culoare) {
