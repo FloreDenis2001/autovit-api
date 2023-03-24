@@ -10,6 +10,7 @@ import ro.mycode.autovitapi.exceptii.MasinaDoesntExistException;
 import ro.mycode.autovitapi.model.Masina;
 import ro.mycode.autovitapi.service.MasinaService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class CarResource {
     }
 
     @PostMapping("api/v1/masini/add")
-    public ResponseEntity<Masina> addCar(@RequestBody Masina m) {
+    public ResponseEntity<Masina> addCar(@Valid @RequestBody Masina m) {
             this.masinaService.add(m);
             return new ResponseEntity<>(m, HttpStatus.CREATED);
     }
@@ -48,13 +49,13 @@ public class CarResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("api/v1/masini/update")
-    public ResponseEntity<MasinaDTO> updateCar(@RequestBody MasinaDTO masina) {
+    public ResponseEntity<MasinaDTO> updateCar(@Valid @RequestBody MasinaDTO masina) {
         this.masinaService.update(masina);
         return new ResponseEntity<>(masina,HttpStatus.OK);
     }
 
     @GetMapping("api/v1/masini/filter")
-    public ResponseEntity<MasinaDTO> filterCar(@RequestBody MasinaDTO masina){
+    public ResponseEntity<MasinaDTO> filterCar(@Valid @RequestBody MasinaDTO masina){
         this.masinaService.filter(masina);
         return new ResponseEntity<>(masina,HttpStatus.OK);
     }
