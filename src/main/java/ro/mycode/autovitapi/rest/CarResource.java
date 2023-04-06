@@ -60,6 +60,12 @@ public class CarResource {
         return new ResponseEntity<>(masina,HttpStatus.OK);
     }
 
+    @GetMapping("api/v1/masini/findById/{id}")
+    public ResponseEntity<Masina> getCarById(@Valid @PathVariable Long id){
+        Masina carById = this.masinaService.getCarById(id);
+        return new ResponseEntity<>(carById,HttpStatus.OK);
+    }
+
 
 
 }

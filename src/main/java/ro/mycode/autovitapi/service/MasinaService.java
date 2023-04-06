@@ -115,4 +115,13 @@ public class MasinaService {
 
         return Optional.of(filter);
     }
+
+    @Transactional
+    public Masina getCarById(Long id) {
+       Optional<Masina> t = masinaRepository.findById(id);
+        if(t.isEmpty()){
+            throw new MasinaDoesntExistException("Masina nu exista !");
+        }
+        return t.get();
+    }
 }
