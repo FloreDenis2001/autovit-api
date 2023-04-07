@@ -43,9 +43,15 @@ public class CarResource {
             return new ResponseEntity<>(m, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("api/v1/masini/{model}")
-    public ResponseEntity<Masina> deleteCar(@PathVariable String model) {
+    @DeleteMapping("api/v1/masini/removebymodel/{model}")
+    public ResponseEntity<Masina> deleteCar(@PathVariable(value = "model") String model) {
         this.masinaService.removeByModel(model);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("api/v1/masini/removebyid/{id}")
+    public ResponseEntity<Masina> deleteCar(@PathVariable(value="id")  Long id) {
+        this.masinaService.removeById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("api/v1/masini/update")
@@ -65,6 +71,9 @@ public class CarResource {
         Masina carById = this.masinaService.getCarById(id);
         return new ResponseEntity<>(carById,HttpStatus.OK);
     }
+
+
+
 
 
 

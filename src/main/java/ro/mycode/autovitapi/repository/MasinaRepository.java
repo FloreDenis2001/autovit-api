@@ -37,7 +37,12 @@ public interface MasinaRepository extends JpaRepository<Masina,Long> {
 
 
     @Transactional
+    @Modifying
     void removeMasinaByModel(String model);
+
+    @Transactional
+    @Modifying
+    void removeById(Long id);
 
 
 

@@ -70,6 +70,17 @@ public class MasinaService {
     }
 
     @Transactional
+    public void removeById(Long id) throws MasinaDoesntExistException {
+        Optional<Masina> exits = masinaRepository.findById(id);
+        if (!exits.isEmpty()) {
+            masinaRepository.removeById(id);
+        } else {
+            throw new MasinaDoesntExistException("Masina nu exista in database ! ");
+        }
+
+    }
+
+    @Transactional
     @Modifying
     public void update(MasinaDTO masinaDTO) throws MasinaDoesntExistException {
         Optional<Masina> exits = masinaRepository.findByModel(masinaDTO.getModel());

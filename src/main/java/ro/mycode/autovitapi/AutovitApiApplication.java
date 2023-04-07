@@ -21,21 +21,6 @@ public class AutovitApiApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(MasinaService masinaService,MasinaRepository masinaRepository){
 		return  args->{
-//			masinaService.getAllCars().forEach(System.out::println);
-
-//			view.play();
-//            masinaService.update("red","x");
-//			masinaRepository.removeMasinaByModel("C");
-
-//			masinaRepository.getAllCarsByColor("Red").get().forEach(System.out::println);
-
-//			System.out.println(masinaRepository.findByModel("929").toString());
-
-//			masinaService.add(new Masina("Mercedes","C",2005,"white"));
-
-
-//			MasinaDTO masinaDTO=new MasinaDTO("Porsche","E",2012,"Puce");
-//			masinaService.filter(masinaDTO);
 		};
 
 	}
